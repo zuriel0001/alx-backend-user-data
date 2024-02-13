@@ -10,10 +10,11 @@ import base64
 
 
 class BasicAuth(Auth):
-    """ Extends BasicAuth class
+    """
+    Represents BasicAuth class
     """
     def extract_base64_authorization_header(self, auth_header: str) -> str:
-        """ Extract base64 authorization header """
+        """ Method to Extract base64 authorization header """
         if auth_header is None or not isinstance(auth_header, str):
             return None
         if 'Basic ' not in auth_header:
@@ -21,28 +22,30 @@ class BasicAuth(Auth):
         return auth_header[6:]
 
     def decode_base64_authorization_header(self, b64_auth_header: str) -> str:
-        """ Returns decode base64 authorization """
+        """ Method that returns decode base64 authorization """
         if b64_auth_header is None or not isinstance(b64_auth_header, str):
-            return None
+            return (None)
         try:
             b64 = base64.b64decode(b64_auth_header)
             b64_decode = b64.decode('utf-8')
         except Exception:
             return None
-        return b64_decode
+
+        return (b64_decode)
 
     def extract_user_credentials(
             self, decoded_b64_auth_header: str) -> (str, str):
-        """ Returns user credentials """
+        """Method that returns user credentials """
         if decoded_b64_auth_header is None or not isinstance(
                 decoded_b64_auth_header, str) \
            or ':' not in decoded_b64_auth_header:
             return (None, None)
-        return decoded_b64_auth_header.split(':', 1)
+
+        return (decoded_b64_auth_header.split(':', 1))
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
-        """ Returns user object from credentials """
+        """ Method that returns user object from credentials """
         if user_email is None or not isinstance(
                 user_email, str) or user_pwd is None or not isinstance(
                     user_pwd, str):
@@ -57,7 +60,7 @@ class BasicAuth(Auth):
             return None
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ Overloads Basic authentication """
+        """ Method to overloads Basic authentication """
         auth_header = self.authorization_header(request)
         if not auth_header:
             return None
@@ -69,4 +72,5 @@ class BasicAuth(Auth):
         user_password = user_credentials[1]
         user_credentials = self.user_object_from_credentials(
             user_email, user_password)
+
         return (user_credentials)
