@@ -63,6 +63,7 @@ def before_request() -> str:
     """
     Mehtod to filter request
     """
+    cookie = auth.session_cookie(request)
     request_path_list = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
@@ -70,7 +71,7 @@ def before_request() -> str:
         '/api/v1/auth_session/login/']
     if auth:
         if auth.require_auth(request.path, request_path_list):
-            if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+            if auth.authorization_header(request) is None and cookie is None:
                 abort(401)
             if auth.current_user(request) is None:
                 abort(403)
