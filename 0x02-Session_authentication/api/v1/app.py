@@ -66,7 +66,7 @@ def before_request() -> str:
     request_path_list = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
-        '/api/v1/forbidden/'
+        '/api/v1/forbidden/',
         '/api/v1/auth_session/login/']
     if auth:
         if auth.require_auth(request.path, request_path_list):
